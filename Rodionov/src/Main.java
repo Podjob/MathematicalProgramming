@@ -163,23 +163,7 @@ public class Main {
             }
         }
 
-        StringBuilder outputMatrix = new StringBuilder();
-        int maxPadding = 0;
-        for (int j = 0; j < rows.length; j++) {
-            if(rows.length <= 2){
-                outputMatrix.append("   ");
-                break;
-            }else {
-                int padding = rows[i].length();
-                if (padding >= maxPadding) {
-                    outputMatrix.append(" ");
-                }
-            }
-            if(j == 2){
-                break;
-            }
-        }
-        System.out.print(outputMatrix);
+        System.out.print("   ");
 
         for (String numColumns: columns) {
             String numString = String.valueOf(numColumns);
@@ -269,23 +253,7 @@ public class Main {
             }
         }
 
-        StringBuilder outputMatrix = new StringBuilder();
-        int maxPadding = 0;
-        for (int j = 0; j < rows.length; j++) {
-            if(rows.length <= 2){
-                outputMatrix.append("   ");
-                break;
-            }else {
-                int padding = rows[i].length();
-                if (padding >= maxPadding) {
-                    outputMatrix.append(" ");
-                }
-            }
-            if(j == 2){
-                break;
-            }
-        }
-        System.out.print(outputMatrix);
+        System.out.print("   ");
 
         for (String numColumns: columns) {
             String numString = String.valueOf(numColumns);
