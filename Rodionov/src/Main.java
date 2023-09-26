@@ -12,7 +12,7 @@ public class Main {
         int n = scanner.nextInt();
 //  обычный пример
 //        1 1 2  3
-//        1 1 2  1
+//        1 1 1  1
 //        2 1 0 -1
 //  пример с нулевой строкой
 //        4  1  2  1 0
@@ -50,6 +50,10 @@ public class Main {
             columns[i] = "-x" + i;
         }
 
+
+        final int q = 0;
+        firstPrintMatix(matrix, columns, rows, q);
+        
         for (int i = 0; i < m; i++) {
             
             // проверка на несовместность
@@ -138,7 +142,7 @@ public class Main {
                 System.out.print(rows[i] + " = " + format.format(matrix[i][0]));
                 for (int j = 0; j < columns.length; j++) {
                     if(columns[j] != "0" && columns[j] != "1"){
-                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + "*" + columns[j].substring(1, 3) + ")");
+                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + "*" + columns[j].substring(0, 3).substring(1, 3) + ")");
                     }
                 }
             }
@@ -147,6 +151,82 @@ public class Main {
 
 
     }
+    
+    public static void firstPrintMatix(double[][] matrix, String[] columns, String[] rows, int i){
+        
+        int maxLength = 0;
+        
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalSeparatorAlwaysShown(false);
+
+        for (String numColumns: columns) {
+            int length = numColumns.length();
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+
+        for (double[] row : matrix) {
+            for (double num : row) {
+                int length = String.valueOf(num).length();
+                if (length > maxLength) {
+                    maxLength = length;
+                }
+            }
+        }
+
+
+        StringBuilder outputMatrix = new StringBuilder();
+        int maxPadding = 0;
+        for (int j = 0; j < rows.length; j++) {
+            int padding = rows[i].length();
+            if(padding >= maxPadding){
+                outputMatrix.append(" ");
+            }
+        }
+        System.out.print(outputMatrix);
+
+        for (String numColumns: columns) {
+            String numString = String.valueOf(numColumns);
+            int numLength = numString.length();
+            int padding = maxLength - numLength;
+            StringBuilder outputValueMatrix = new StringBuilder();
+
+            for (int j = 0; j < padding; j++) {
+                outputValueMatrix.append(" ");
+            }
+
+            outputValueMatrix.append(numString);
+            System.out.print(outputValueMatrix.toString() + " ");
+        }
+        System.out.println();
+        int u = 0;
+        for (double[] row : matrix) {
+            if (rows[u] == "0"){
+                System.out.print(rows[u++] + "  ");
+            }else{
+                System.out.print(rows[u++] + " ");
+            }
+            for (double num : row) {
+                String numString = String.valueOf(format.format(num));
+                int numLength = numString.length();
+                int padding = maxLength - numLength;
+                StringBuilder outputValueMatrix = new StringBuilder();
+
+                for (int j = 0; j < padding; j++) {
+                    outputValueMatrix.append(" ");
+                }
+
+                outputValueMatrix.append(numString);
+                System.out.print(outputValueMatrix.toString() + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println();
+        
+    }
+    
     public static void printMatrix(double[][] matrix, String[] columns, String[] rows, int s, int k, int i, int m, int n) {
         int maxLength = 0;
 
