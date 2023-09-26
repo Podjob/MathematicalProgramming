@@ -10,22 +10,33 @@ public class Main {
         int m = scanner.nextInt();
         System.out.print("Введите параметр n: ");
         int n = scanner.nextInt();
-//  обычный пример
-//        1 1 2  3
-//        1 1 1  1
-//        2 1 0 -1
-//  пример с нулевой строкой
-//        4  1  2  1 0
-//        6  1  1  0 1
-//        10 1 -1 -2 3
-//  обычный пример
-//        5  2 3 4
-//        1  2 1 2
-//        10 1 3 5
-//  пример несовместной матрицы
-//        1  1  2 -4
-//       -1  2  1 -5
-//        1 -1 -1  3
+/*
+  обычный пример
+        1 1 2  3
+        1 1 2  1
+        2 1 0 -1
+  пример с нулевой строкой
+        4  1  2  1 0
+        6  1  1  0 1
+        10 1 -1 -2 3
+  обычный пример
+        5  2 3 4
+        1  2 1 2
+        10 1 3 5
+  пример несовместной матрицы
+        1  1  2 -4
+       -1  2  1 -5
+        1 -1 -1  3
+
+
+        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3
+
+ */
 
         double[][] matrix = new double[m][n + 1];
         double[][] copyMatrix = new double[m][n + 1];
@@ -50,10 +61,9 @@ public class Main {
             columns[i] = "-x" + i;
         }
 
-
-        final int q = 0;
+        int q = 0;
         firstPrintMatix(matrix, columns, rows, q);
-        
+
         for (int i = 0; i < m; i++) {
             
             // проверка на несовместность
@@ -129,33 +139,11 @@ public class Main {
         }
     }
 
-    public static void printResponseNullRows(double[][] matrix, String[] columns, String[] rows){
 
-
-        DecimalFormat format = new DecimalFormat();
-        format.setDecimalSeparatorAlwaysShown(false);
-
-
-        System.out.println("Ответ:");
-        for (int i = 0; i < rows.length; i++) {
-            if(rows[i] != "0"){
-                System.out.print(rows[i] + " = " + format.format(matrix[i][0]));
-                for (int j = 0; j < columns.length; j++) {
-                    if(columns[j] != "0" && columns[j] != "1"){
-                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + "*" + columns[j].substring(0, 3).substring(1, 3) + ")");
-                    }
-                }
-            }
-            System.out.println();
-        }
-
-
-    }
-    
     public static void firstPrintMatix(double[][] matrix, String[] columns, String[] rows, int i){
-        
+
         int maxLength = 0;
-        
+
         DecimalFormat format = new DecimalFormat();
         format.setDecimalSeparatorAlwaysShown(false);
 
@@ -175,13 +163,20 @@ public class Main {
             }
         }
 
-
         StringBuilder outputMatrix = new StringBuilder();
         int maxPadding = 0;
         for (int j = 0; j < rows.length; j++) {
-            int padding = rows[i].length();
-            if(padding >= maxPadding){
-                outputMatrix.append(" ");
+            if(rows.length <= 2){
+                outputMatrix.append("   ");
+                break;
+            }else {
+                int padding = rows[i].length();
+                if (padding >= maxPadding) {
+                    outputMatrix.append(" ");
+                }
+            }
+            if(j == 2){
+                break;
             }
         }
         System.out.print(outputMatrix);
@@ -224,9 +219,30 @@ public class Main {
         }
 
         System.out.println();
-        
+
     }
-    
+    public static void printResponseNullRows(double[][] matrix, String[] columns, String[] rows){
+
+
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalSeparatorAlwaysShown(false);
+
+
+        System.out.println("Ответ:");
+        for (int i = 0; i < rows.length; i++) {
+            if(rows[i] != "0"){
+                System.out.print(rows[i] + " = " + format.format(matrix[i][0]));
+                for (int j = 0; j < columns.length; j++) {
+                    if(columns[j] != "0" && columns[j] != "1"){
+                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + "*a" + columns[j].substring(2, 3) + ")");
+                    }
+                }
+            }
+            System.out.println();
+        }
+
+
+    }
     public static void printMatrix(double[][] matrix, String[] columns, String[] rows, int s, int k, int i, int m, int n) {
         int maxLength = 0;
 
@@ -246,20 +262,27 @@ public class Main {
 
         for (double[] row : matrix) {
             for (double num : row) {
-                int length = String.valueOf(num).length();
+                int length = String.valueOf(format.format(num)).length();
                 if (length > maxLength) {
                     maxLength = length;
                 }
             }
         }
 
-
         StringBuilder outputMatrix = new StringBuilder();
         int maxPadding = 0;
         for (int j = 0; j < rows.length; j++) {
-            int padding = rows[i].length();
-            if(padding >= maxPadding){
-                outputMatrix.append(" ");
+            if(rows.length <= 2){
+                outputMatrix.append("   ");
+                break;
+            }else {
+                int padding = rows[i].length();
+                if (padding >= maxPadding) {
+                    outputMatrix.append(" ");
+                }
+            }
+            if(j == 2){
+                break;
             }
         }
         System.out.print(outputMatrix);
