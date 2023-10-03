@@ -29,12 +29,16 @@ public class Main {
         1 -1 -1  3
 
 
-        3 3 3 3 3 3 3
-        3 3 3 3 3 3 3
-        3 3 3 3 3 3 3
-        3 3 3 3 3 3 3
-        3 3 3 3 3 3 3
-        3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
+        3 3 3 3 3 3 3 3 3 3 3
 
  */
 
@@ -218,11 +222,11 @@ public class Main {
                 System.out.print(rows[i] + " = " + format.format(matrix[i][0]));
                 for (int j = 0; j < columns.length; j++) {
                     if(columns[j] != "0" && columns[j] != "1"){
-                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + "*a" + columns[j].substring(2, 3) + ")");
+                        System.out.print(" + (" + format.format(-1 * matrix[i][j]) + ")*a" + columns[j].substring(2));
                     }
                 }
             }
-            System.out.println();
+//            System.out.println();
         }
 
 
@@ -233,7 +237,7 @@ public class Main {
         DecimalFormat format = new DecimalFormat();
         format.setDecimalSeparatorAlwaysShown(false);
 
-        String d = columns[s].substring(1, 3);
+        String d = columns[s].substring(1);
         columns[s] = rows[k-1];
         rows[k-1] = d;
 
@@ -273,8 +277,10 @@ public class Main {
         for (double[] row : matrix) {
             if (rows[u] == "0"){
                 System.out.print(rows[u++] + "  ");
-            }else{
+            }else if(rows[u].length() == 2){
                 System.out.print(rows[u++] + " ");
+            }else {
+                System.out.print(rows[u++]);
             }
             for (double num : row) {
                 String numString = String.valueOf(format.format(num));
