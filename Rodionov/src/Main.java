@@ -223,10 +223,20 @@ public class Main {
                 for (int j = 0; j < columns.length; j++) {
                     if(columns[j] != "0" && columns[j] != "1"){
                         System.out.print(" + (" + format.format(-1 * matrix[i][j]) + ")*a" + columns[j].substring(2));
+                        
                     }
+                    
                 }
+                System.out.println();
             }
-//            System.out.println();
+            
+        }
+        
+        for (String valCol: columns) {
+            if(valCol != "0" && valCol != "1"){
+                System.out.print(valCol.substring(1,3) + " = a" + valCol.substring(2));
+                System.out.println();
+            }
         }
 
 
