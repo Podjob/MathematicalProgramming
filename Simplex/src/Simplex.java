@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -31,6 +32,38 @@ public class Simplex {
                   0  2  6 -5  1  4
 
                 -10 -1  2  2  0 -3
+
+
+
+                12   1   1   1  0  0  0  0
+                40   1   4   3  1  0  0  0
+                10   1   0   0  0  1  0  0
+                 8   0   1   0  0  0  1  0
+                 6   0   0   1  0  0  0  1
+                 0  -4  -3  -1  0  0  0  0
+
+               -76  -3  -6  -5 -1 -1 -1 -1
+
+
+
+               12  1   1   1  0  0  0  0
+               40  1   4   3  1  0  0  0
+               10  1   0   0  0  1  0  0
+                8  0   1   0  0  0  1  0
+                6  0   0   1  0  0  0  1
+                0  4   3   1  0  0  0  0
+
+
+               30 5 6 1 0 0
+                4 1 0 0 1 0
+                4 0 1 0 0 1
+                0 -4 -3 0 0 0
+
+
+                30 5 6 1 0 0
+                3  1 0 0 1 0
+                3  0 1 0 0 1
+                0 -1 1 0 0 0
 
          */
 
@@ -80,6 +113,7 @@ public class Simplex {
                     break;
                 case 3:
                     s = defineS(matrix, m, n);
+                    System.out.println("s = " + s);
                     status = 4;
                     break;
                 case 4:
@@ -101,6 +135,7 @@ public class Simplex {
                     break;
                 case 5:
                     k = defineK(matrix, m, n, s);
+                    System.out.println("k = " + k);
                     status = 6;
                     break;
                 case 6:
@@ -130,6 +165,7 @@ public class Simplex {
                     break;
                 case 8:
                     s = defineSSharp(matrix, m, n);
+                    System.out.println("s = " + s);
                     status = 9;
                     break;
                 case 9:
@@ -151,6 +187,7 @@ public class Simplex {
                     break;
                 case 10:
                     k = defineK(matrix, m, n, s);
+                    System.out.println("k = " + k);
                     status = 11;
                     break;
                 case 11:
@@ -199,40 +236,51 @@ public class Simplex {
         return columns;
     }
 
-    public static int defineS(double[][] matrix, int m, int n){
-        double maxValue = 0;
+    public static int defineS(double[][] matrix, int m, int n) {
         int s = 0;
+        double[] fRows = new double[n];
         for (int i = 1; i < n; i++) {
-            if(matrix[m - 1][i] * -1 == Math.abs(matrix[m - 1][i]) && Math.abs(matrix[m - 1][i]) >= maxValue){
-                maxValue = Math.abs(matrix[m - 1][i]);
+            fRows[i] = matrix[m - 1][i];
+        }
+        double minValue = Arrays.stream(fRows).min().getAsDouble();
+        System.out.println("minValue = " + minValue);
+        for (int i = 1; i < n; i++) {
+            if(matrix[m - 1][i] == minValue){
                 s = i;
+                break;
             }
         }
         return s;
+
     }
 
     public static int defineSSharp(double[][] matrix, int m, int n){
-        double maxValue = 0;
-        int s = 0;
+        double maxValue = Double.MIN_VALUE;
+        int s = 1;
         for (int i = 1; i < n; i++) {
-            if(matrix[m - 2][i] * -1 != Math.abs(matrix[m - 1][i]) && matrix[m - 1][i] == 0 && Math.abs(matrix[m - 1][i]) >= maxValue){
-                maxValue = Math.abs(matrix[m - 1][i]);s = i;
-                s = i;
+            if(matrix[m - 2][i] < 0 && matrix[m - 1][i] == 0){
+                if(Math.abs(matrix[m - 2][i]) > maxValue){
+                    maxValue = Math.abs(matrix[m - 2][i]);
+                    s = i;
+                }
             }
         }
         return s;
     }
-
 
     public static int defineK(double[][] matrix, int m, int n, int s){
         int k = 0;
         double minValue = 0;
+        for (int i = 0; i < m - 2; i++) {
+            if(matrix[i][s] != 0 && matrix[i][s] == Math.abs(matrix[i][s])){
+                double curVal = matrix[i][0] / matrix[i][s];
+                if(minValue <= curVal){
+                    minValue = curVal;
+                }
+            }
+        }
         double currentValue = 0;
         for (int i = 0; i < m - 2; i++) {
-            if(matrix[i][s] == 1){
-                k = i;
-                break;
-            }
             if(matrix[i][s] != 0 && matrix[i][s] == Math.abs(matrix[i][s])){
                 currentValue = matrix[i][0] / matrix[i][s];
                 if(minValue >= currentValue){
@@ -278,6 +326,14 @@ public class Simplex {
             for (int j = 0; j < n; j++){
                 if (i != k && j != s){
                     matrixJordan[i][j] = (copy[i][j]*mks - copy[i][s]*copy[k][j])/mks;
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                if(matrix[i][j] == -0){
+                    matrix[i][j] = 0;
                 }
             }
         }
@@ -376,11 +432,13 @@ public class Simplex {
             }
         }
 
+
+
         System.out.print(")");
         System.out.println();
 
         String answerMPiece;
-        if(matrix[rows.length - 1][0] == 0 && matrix[rows.length - 1][0] == -0){
+        if((int) matrix[rows.length - 1][0] == 0 || (int) matrix[rows.length - 1][0] == -0){
             answerMPiece = "";
         }else{
             answerMPiece = " + " + format.format(matrix[rows.length - 1][0]) + "M";
