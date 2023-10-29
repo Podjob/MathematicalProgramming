@@ -26,6 +26,7 @@ public class Simplex {
         int iter = 0;
 
         /*
+                  f = -7
                   3  1 -4  2 -5  9
                   6  0  1 -3  4 -5
                   1  0  1 -1  1 -1
@@ -34,7 +35,7 @@ public class Simplex {
                 -10 -1  2  2  0 -3
 
 
-
+                f = 30
                 12   1   1   1  0  0  0  0
                 40   1   4   3  1  0  0  0
                 10   1   0   0  0  1  0  0
@@ -45,25 +46,37 @@ public class Simplex {
                -76  -3  -6  -5 -1 -1 -1 -1
 
 
-
-               12  1   1   1  0  0  0  0
-               40  1   4   3  1  0  0  0
-               10  1   0   0  0  1  0  0
-                8  0   1   0  0  0  1  0
-                6  0   0   1  0  0  0  1
-                0  4   3   1  0  0  0  0
-
-
-               30 5 6 1 0 0
-                4 1 0 0 1 0
-                4 0 1 0 0 1
+               f = 21
+               30  5  6 1 0 0
+                4  1  0 0 1 0
+                4  0  1 0 0 1
                 0 -4 -3 0 0 0
 
-
+                f = 3
                 30 5 6 1 0 0
                 3  1 0 0 1 0
                 3  0 1 0 0 1
                 0 -1 1 0 0 0
+
+
+                неразрешимый пример
+                1 1  1 -2 3
+                2 2 -1 -1 3
+                0 -1  -2 1 -1
+
+
+                f = 282/11 = 25,636
+                16   2  -1 -2  0 1 0
+                18   3   2  1 -3 0 0
+                24  -1   3  0  4 0 1
+                 0  -2  -3  0  1 0 0
+
+                f = 16
+                1  0 -1  1 1  0
+                2 -5  1  1 0  0
+                3 -8  1  2 0 -1
+                0  3 -1 -4 0  0
+
 
          */
 
@@ -89,7 +102,9 @@ public class Simplex {
                     if(variable == 1){
                         System.out.print("Введите s: ");
                         s = scanner.nextInt();
+                        System.out.println("s = " + s);
                         k = defineK(matrix, m, n, s);
+                        System.out.println("k = " + k);
                         matrix = jordan(matrix, k, s, m, n);
                         swapColumnsAndRows(columns, rows, s, k);
                         printMatrix(matrix, columns, rows, iter);
@@ -119,7 +134,7 @@ public class Simplex {
                 case 4:
                     int cheсkNegotiveElementFromS = 0;
                     for (int i = 0; i < m - 2; i++) {
-                        if (matrix[i][s] == Math.abs(matrix[i][s])) {
+                        if (matrix[i][s] > 0) {
                             cheсkNegotiveElementFromS++;
                             break;
                         }
@@ -171,7 +186,7 @@ public class Simplex {
                 case 9:
                     int cheсkPositiveElementFromS = 0;
                     for (int i = 0; i < m - 2; i++) {
-                        if (matrix[i][s] == Math.abs(matrix[i][s])) {
+                        if (matrix[i][s] > 0) {
                             cheсkPositiveElementFromS++;
                             break;
                         }
