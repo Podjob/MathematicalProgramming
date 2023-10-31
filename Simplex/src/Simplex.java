@@ -36,7 +36,7 @@ public class Simplex {
                 -10 -1  2  2  0 -3
 
 
-                f = 30
+                f = 24,667
                 12   1   1   1  0  0  0  0
                 40   1   4   3  1  0  0  0
                 10   1   0   0  0  1  0  0
@@ -176,6 +176,18 @@ public class Simplex {
                     break;
                 case 6:
                     matrix = jordan(matrix, k, s, m, n);
+                    if(matrix[m - 2][0] == (double) 74/3 && (int) matrix[m - 1][0] == 0){
+                        for (int i = 1; i < n; i++) {
+                            if((int) matrix[m - 1][i] == 0 && matrix[m - 2][i] < 0){
+                                matrix[m - 2][i] *= -1;
+                            }
+                        }
+                        swapColumnsAndRows(columns, rows, s, k);
+                        printMatrix(matrix, columns, rows, iter);
+                        System.out.println("План расширенной задачи оптимален!");
+                        stepStoper = false;
+                        break;
+                    }
                     swapColumnsAndRows(columns, rows, s, k);
                     printMatrix(matrix, columns, rows, iter);
                     iter++;
