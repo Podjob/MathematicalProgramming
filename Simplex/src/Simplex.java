@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -45,6 +46,14 @@ public class Simplex {
 
                -76  -3  -6  -5 -1 -1 -1 -1
 
+               f = -24,667
+               12   1   1   1  0  0  0  0
+               40   1   4   3  1  0  0  0
+               10   1   0   0  0  1  0  0
+                8   0   1   0  0  0  1  0
+                6   0   0   1  0  0  0  1
+                0   4   3   1  0  0  0  0
+
 
                f = 21
                30  5  6 1 0 0
@@ -77,12 +86,24 @@ public class Simplex {
                 3 -8  1  2 0 -1
                 0  3 -1 -4 0  0
 
+                сложно
+                8 1 1 -1 -1 0 0
+                2 1 -1 2 0 -1 0
+                1 -2 -8 3 0 0 -1
+                0 -2 -1 2 0 0 0
+
+                f = 17
+                4 0 1 1 -1 0 0
+                6 2 1 2 0 -1 0
+                2 2 -1 2 0 0 -1
+                0 -3 -2 -1 0 0 0
+
 
          */
 
         createMatrix(m, n, matrix, scanner);
-        createRows(rows);
         createColumns(columns);
+        createRows(rows, columns.length);
         algorithm(matrix, columns, rows, m, n, k, s, iter);
 
     }
@@ -116,7 +137,7 @@ public class Simplex {
                 case 2:
                     int cheсkNegativeElementFromG = 0;
                     for (int i = 1; i < n; i++) {
-                        if (matrix[m - 1][i] == Math.abs(matrix[m - 1][i])) {
+                        if (matrix[m - 1][i] >= 0) {
                             cheсkNegativeElementFromG++;
                         }
                     }
@@ -166,7 +187,7 @@ public class Simplex {
                     for (int i = 1; i < n; i++) {
                         if(matrix[m - 1][i] == 0 ){
                             zeroElementFromG++;
-                            if(matrix[m - 2][i] == Math.abs(matrix[m - 2][i])){
+                            if(matrix[m - 2][i] >= 0){
                                 zeroElementFromF++;
                             }
                         }
@@ -235,10 +256,10 @@ public class Simplex {
         return matrix;
     }
 
-    public static String[] createRows(String[] rows){
+    public static String[] createRows(String[] rows, int columnsLen){
         rows[rows.length - 2] = "f";
         rows[rows.length - 1] = "g";
-        for (int i = 0, j = rows.length + 1; i < rows.length - 2; i++, j++) {
+        for (int i = 0, j = columnsLen; i < rows.length - 2; i++, j++) {
             rows[i] = "x" + j;
         }
         return rows;
@@ -446,8 +467,6 @@ public class Simplex {
                 System.out.print(format.format(ansverSystem[i]));
             }
         }
-
-
 
         System.out.print(")");
         System.out.println();
